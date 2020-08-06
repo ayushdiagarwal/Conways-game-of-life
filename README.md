@@ -12,7 +12,7 @@ This is a visualization of Conway's game of life made using python and pygame
 ## Demo
 
 ### Glider in Conway's Game of Life
-* ![Manga Scraper Demo](Demo/demo.gif)
+![Manga Scraper Demo](Demo/demo.gif)
 
 ## Installation
 * Install 3.8 from [here](https://www.python.org/downloads/release/python-382/)

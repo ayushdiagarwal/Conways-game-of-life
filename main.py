@@ -104,8 +104,19 @@ class Life:
             x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
             # Y axis of the mouse position
             y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
-            print(x_pos, y_pos)
+            
             self.matrix[x_pos][y_pos] = 1
+
+
+        # If right click, it deletes the cell
+        if click[2] == 1:
+            # X axis of the mouse position
+            x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
+            # Y axis of the mouse position
+            y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
+
+            if self.matrix[x_pos][y_pos] == 1:
+                self.matrix[x_pos][y_pos] = 0
             
 
     # Draws the square/box wherever it needs to be drawn

@@ -23,7 +23,7 @@ import time
 pg.init()
 
 # window display stuff
-DISPLAY_SIDE = 700
+DISPLAY_SIDE = 650
 DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE))
 pg.display.set_caption("Conway's Game Of Life")
 
@@ -83,6 +83,11 @@ class Life:
 
             if keys[pg.K_c]:
                 self.started = False
+
+            # Reset
+            if keys[pg.K_r]:
+                self.started = False
+                self.matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
 
             # Updating the pygame window
             clock.tick(frame)

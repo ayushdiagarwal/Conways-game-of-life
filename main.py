@@ -40,12 +40,11 @@ BLUE = (50, 119, 168)
 
 # some variables
 col_no = 35
-yes1 = yes2 = False
-start = End = None
 
 class Life:
     # A matrix/grid for the window
-    matrix = [[random.randrange(0,2) for _ in range(col_no)] for _ in range(col_no)]	
+    matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]	
+    started = False
     # print(matrix)
 
     def __init__(self):
@@ -59,9 +58,18 @@ class Life:
             # Filling white color everytime
             DP.fill(WHITE)
             # Running some functions to do stuff
+            self.get_pos()
             self.mark_position()
             self.draw_grid()
-            self.apply_rules()
+
+            # Checking if the user has drawn the grid
+
+            # if started == True:
+            #   self.apply_rules()
+
+            keys = pg.key.get_pressed()
+            if keys[pg.K_SPACE]:
+                self.apply_rules()
 
             # Updating the pygame window
             clock.tick(frame)
@@ -88,7 +96,6 @@ class Life:
 
     # getting position of the selected box
     def get_pos(self):
-        global yes1, yes2, start, end
         click = pg.mouse.get_pressed()
         mouse = pg.mouse.get_pos()
         # if there is a click
@@ -97,40 +104,8 @@ class Life:
             x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
             # Y axis of the mouse position
             y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
-
-            # Getting the starting point
-            if yes1 == False:
-                for i in self.matrix:
-                    if 2 not in i:
-                        # if (x_pos, y_pos) != end:
-                        yes1 = True
-                        start = (x_pos, y_pos)
-                        self.matrix[x_pos][y_pos] = 2
-
-            # Getting the ending point
-            if yes2 == False:
-                for i in self.matrix:
-                    if 3 not in i:
-                        if (x_pos, y_pos) != start:
-                            yes2 = True
-                            end = (x_pos, y_pos)
-                            self.matrix[x_pos][y_pos] = 3
-
-            # if starting and ending points are given, the getting the obstacles points
-            if yes1 == yes2 == True:
-                if (x_pos, y_pos) != start:
-                    if (x_pos, y_pos) != end:
-                        self.matrix[x_pos][y_pos] = 1
-
-        # If right click, it deletes the obstacle
-        if click[2] == 1:
-            # X axis of the mouse position
-            x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
-            # Y axis of the mouse position
-            y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
-
-            if self.matrix[x_pos][y_pos] == 1:
-                self.matrix[x_pos][y_pos] = 0
+            print(x_pos, y_pos)
+            self.matrix[x_pos][y_pos] = 1
             
 
     # Draws the square/box wherever it needs to be drawn

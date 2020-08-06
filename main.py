@@ -46,6 +46,7 @@ class Life:
     # A matrix/grid for the window
     matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
     end = time.time()
+    started = False
 
     def __init__(self):
         # Main pygame loop
@@ -58,7 +59,8 @@ class Life:
             # Filling white color everytime
             DP.fill(WHITE)
             # Running some functions to do stuff
-            self.get_pos()
+            if self.started == False:
+                self.get_pos()
             self.mark_position()
             self.draw_grid()
 
@@ -68,10 +70,19 @@ class Life:
             if keys[pg.K_SPACE]:
                 start = time.time()
                 if start - self.end>0.05:
-                    print("konnichiwa")
                     self.apply_rules()
                     self.add_and_remove()
                 self.end = time.time()
+
+            if self.started == True:
+                self.apply_rules()
+                self.add_and_remove()
+
+            if keys[pg.K_s]:
+                self.started = True
+
+            if keys[pg.K_c]:
+                self.started = False
 
             # Updating the pygame window
             clock.tick(frame)

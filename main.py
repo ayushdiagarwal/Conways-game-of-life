@@ -43,10 +43,10 @@ col_no = 35
 yes1 = yes2 = False
 start = End = None
 
-class Star:
+class Life:
     # A matrix/grid for the window
     matrix = [[random.randrange(0,2) for _ in range(col_no)] for _ in range(col_no)]	
-    print(matrix)
+    # print(matrix)
 
     def __init__(self):
         # Main pygame loop
@@ -59,9 +59,9 @@ class Star:
             # Filling white color everytime
             DP.fill(WHITE)
             # Running some functions to do stuff
-
-            self.draw_grid()
             self.mark_position()
+            self.draw_grid()
+            self.apply_rules()
 
             # Updating the pygame window
             clock.tick(frame)
@@ -138,19 +138,53 @@ class Star:
         rect_side = DISPLAY_SIDE//col_no
         for i in range(col_no):
             for j in range(col_no):
-                # obstacles 
+                # black color for the alive cells
                 if self.matrix[i][j] == 1:
                     self.draw_rect(BLUE, rect_side*i, rect_side*j, rect_side, rect_side)
-                # Green box for the starting point
-                elif self.matrix[i][j] == 2:
-                    self.draw_rect(GREEN, rect_side*i, rect_side*j, rect_side, rect_side)
-                # Red box for the ending point
-                elif self.matrix[i][j] == 3:
-                    self.draw_rect(RED, rect_side*i, rect_side*j, rect_side, rect_side)
+
+
+    # Function to count neighbouors of each cell
+    def count_neighbors(self, grid, x, y):
+        sumi = 0
+
+        for i in range(-1,2):
+            for j in range(-1, 2):
+
+                # Checking if the neighbour even exists or not 
+                if x + i >= 0 and x+i < col_no:
+                    if y + j >= 0 and y+j < col_no:
+                        sumi += grid[x+i][y+j]
+
+        # subtract this coloumn value
+        sumi -= grid[x][y]
+        # print(sumi)
+
+        # print(self.sumi)
+        return sumi
+
+
+    def apply_rules(self):
+
+        # 1 --> Neighbours < 2 --> 0
+        # 1 --> Neighbours > 3 --> 0
+        # 0 --> Neighbours == 3 --> 1
+
+        for i in range(col_no):
+            for j in range(col_no):
+                neighbors = self.count_neighbors(self.matrix, i, j)
+                #print(neighbors)
+
+                if neighbors < 2:
+                    self.matrix[i][j] = 0
+                elif neighbors > 3:
+                    self.matrix[i][j] = 0
+                elif neighbors == 3 and self.matrix[i][j] == 0:
+                    self.matrix[i][j] = 1
+
 
 
     
 
 
 # Running the program
-Star()
+Life()

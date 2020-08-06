@@ -3,6 +3,7 @@
 import pygame as pg
 import random
 import os
+import time
 
 
 # RULES
@@ -43,9 +44,8 @@ col_no = 35
 
 class Life:
     # A matrix/grid for the window
-    matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]	
-    started = False
-    # print(matrix)
+    matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
+    end = time.time()
 
     def __init__(self):
         # Main pygame loop
@@ -64,12 +64,14 @@ class Life:
 
             # Checking if the user has drawn the grid
 
-            # if started == True:
-            #   self.apply_rules()
-
             keys = pg.key.get_pressed()
             if keys[pg.K_SPACE]:
-                self.apply_rules()
+                start = time.time()
+                if start - self.end>0.05:
+                    print("konnichiwa")
+                    self.apply_rules()
+                    self.add_and_remove()
+                self.end = time.time()
 
             # Updating the pygame window
             clock.tick(frame)
@@ -155,22 +157,31 @@ class Life:
         # 1 --> Neighbours > 3 --> 0
         # 0 --> Neighbours == 3 --> 1
 
+        self.to_remove = []
+        self.to_add = []
+
         for i in range(col_no):
             for j in range(col_no):
                 neighbors = self.count_neighbors(self.matrix, i, j)
                 #print(neighbors)
 
                 if neighbors < 2:
-                    self.matrix[i][j] = 0
+                    #self.matrix[i][j] = 0
+                    self.to_remove.append([i,j])
                 elif neighbors > 3:
-                    self.matrix[i][j] = 0
+                    #self.matrix[i][j] = 0
+                    self.to_remove.append([i,j])
                 elif neighbors == 3 and self.matrix[i][j] == 0:
-                    self.matrix[i][j] = 1
+                    #self.matrix[i][j] = 1
+                    self.to_add.append([i,j])
 
-
-
-    
-
+    def add_and_remove(self):
+        for i in range(len(self.to_remove)):
+            x,y = self.to_remove[i]
+            self.matrix[x][y] = 0
+        for i in range(len(self.to_add)):
+            x,y = self.to_add[i]
+            self.matrix[x][y] = 1
 
 # Running the program
 Life()

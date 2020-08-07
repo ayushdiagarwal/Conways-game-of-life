@@ -9,9 +9,9 @@ pg.init()
 
 # some variables
 col_no = 35 # 70
-
+into = 18
 # window display stuff
-DISPLAY_SIDE = 700
+DISPLAY_SIDE = col_no*into
 DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE))
 pg.display.set_caption("Conway's Game Of Life")
 
@@ -35,6 +35,7 @@ class Life:
     end = time.time()
     end2 = time.time()
     started = False
+    generation = 0
 
     def __init__(self):
         # Main pygame loop
@@ -116,8 +117,9 @@ class Life:
             x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
             # Y axis of the mouse position
             y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
-            #print(x_pos, y_pos)
             self.matrix[x_pos][y_pos] = 1
+
+            #print(x_pos, y_pos)
 
 
         # If right click, it deletes the cell
@@ -143,6 +145,7 @@ class Life:
 
     # Function to count neighbouors of each cell
     def count_neighbors(self, grid, x, y):
+        global into, col_no
         sumi = 0
 
         for i in range(-1,2):
@@ -152,6 +155,7 @@ class Life:
                 if x + i >= 0 and x+i < col_no:
                     if y + j >= 0 and y+j < col_no:
                         sumi += grid[x+i][y+j]
+
 
         # subtract this cell value
         sumi -= grid[x][y]
@@ -190,6 +194,7 @@ class Life:
         for i in range(len(self.to_add)):
             x,y = self.to_add[i]
             self.matrix[x][y] = 1
+        self.generation += 1
 
 # Running the program
 Life()

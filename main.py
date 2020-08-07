@@ -21,10 +21,8 @@ clock = pg.time.Clock()
 
 # Colors
 WHITE = (255, 255, 255)
-GREEN = (3, 252, 173)
 BLACK = (0,0,0)     
 GREY = (168, 159, 158)
-RED = (255, 0, 0)
 BLUE = (50, 119, 168)
 DARK = (106, 95, 115)
 
@@ -68,7 +66,6 @@ class Life:
             if self.started == True:
                 start2 = time.time()
                 if start2 - self.end2 > 0.009:
-                    old = self.matrix
                     self.apply_rules()
                     self.add_and_remove()
                 self.end2 = time.time()
@@ -168,7 +165,6 @@ class Life:
                 if x + i >= 0 and x+i < col_no:
                     if y + j >= 0 and y+j < col_no:
                         sumi += grid[x+i][y+j]
-
 
         # subtract this cell value
         sumi -= grid[x][y]

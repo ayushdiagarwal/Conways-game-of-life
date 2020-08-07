@@ -12,7 +12,7 @@ col_no = 35 # 70
 into = 18
 # window display stuff
 DISPLAY_SIDE = col_no*into
-DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE))
+DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE+50))
 pg.display.set_caption("Conway's Game Of Life")
 
 # Frame
@@ -21,11 +21,13 @@ clock = pg.time.Clock()
 
 # Colors
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
+GREEN = (3, 252, 173)
 BLACK = (0,0,0)     
 GREY = (168, 159, 158)
 RED = (255, 0, 0)
 BLUE = (50, 119, 168)
+DARK = (106, 95, 115)
+
 
 
 
@@ -82,6 +84,11 @@ class Life:
             if keys[pg.K_r]:
                 self.started = False
                 self.matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
+                self.generation = 0
+
+            # Printing generation
+
+            self.print_stuff(40, f"Generation: {self.generation}", DARK, DISPLAY_SIDE//2-70, DISPLAY_SIDE+15)
 
             # Updating the pygame window
             clock.tick(frame)
@@ -98,7 +105,7 @@ class Life:
         col_dis_cov = 0
         thick = 1
 
-        for _ in range(col_no):
+        for _ in range(col_no+1):
             # Draws Horizontal lines
             self.draw_rect(GREY, 0, col_dis_cov, DISPLAY_SIDE, 0)
 
@@ -141,6 +148,12 @@ class Life:
                 # black color for the alive cells
                 if self.matrix[i][j] == 1:
                     self.draw_rect(BLUE, rect_side*i, rect_side*j, rect_side, rect_side)
+
+    # function for printing stuff
+    def print_stuff(self, font_size, text, color, x, y):
+        self.font = pg.font.Font(None, font_size)
+        self.text_render = self.font.render(text, 1, color)
+        DP.blit(self.text_render, (x, y))
 
 
     # Function to count neighbouors of each cell

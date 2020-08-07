@@ -6,7 +6,7 @@ This is a visualization of Conway's game of life made using python and pygame
 ## Contents
 * [Demo](https://github.com/Crucizer/Conways-game-of-life/#Demo)
 * [Installation](https://github.com/Crucizer/Conways-game-of-life/#Installation)
-* [Usuage](https://github.com/Crucizer/Conways-game-of-life/#Usuage)
+* [Usage](https://github.com/Crucizer/Conways-game-of-life/#Usage)
 * [Explanation](https://github.com/Crucizer/Conways-game-of-life/#Explanation)
 
 ## Demo

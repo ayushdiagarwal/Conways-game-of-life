@@ -8,7 +8,7 @@ import time
 pg.init()
 
 # some variables
-col_no = 35
+col_no = 35 # 70
 
 # window display stuff
 DISPLAY_SIDE = 700

@@ -2,22 +2,7 @@
 
 import pygame as pg
 import random
-import os
 import time
-
-
-# RULES
-
-# GRID = [1,1,]
-#        [1,0,1]
-#        [1,1,,]    
-
-# Neighbours of the cell with value 0 are all the cells with value 1 (In just this particular example)
-
-# Any live cell with fewer than two live neighbours dies, as if by underpopulation. --> 1 --> Neighbours < 2 --> 0
-# Any live cell with more than three live neighbours dies, as if by overpopulation. --> 1 --> Neighbours > 3 --> 0
-# Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction. --> 0 --> Neighbours == 3 --> 1
-
 
 # Intializing pygame
 pg.init()
@@ -26,7 +11,7 @@ pg.init()
 col_no = 35
 
 # window display stuff
-DISPLAY_SIDE = 650
+DISPLAY_SIDE = 700
 DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE))
 pg.display.set_caption("Conway's Game Of Life")
 
@@ -67,8 +52,7 @@ class Life:
             self.mark_position()
             self.draw_grid()
 
-            # Checking if the user has drawn the grid
-
+            # Checking for space key
             keys = pg.key.get_pressed()
             if keys[pg.K_SPACE]:
                 start = time.time()
@@ -77,9 +61,11 @@ class Life:
                     self.add_and_remove()
                 self.end = time.time()
 
+            # Checking for "S" key
             if self.started == True:
                 start2 = time.time()
                 if start2 - self.end2 > 0.009:
+                    old = self.matrix
                     self.apply_rules()
                     self.add_and_remove()
                 self.end2 = time.time()
@@ -87,10 +73,11 @@ class Life:
             if keys[pg.K_s]:
                 self.started = True
 
+            # Checking for "C" key
             if keys[pg.K_c]:
                 self.started = False
 
-            # Reset
+            # Checking for "R" key --> Reset
             if keys[pg.K_r]:
                 self.started = False
                 self.matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
@@ -166,16 +153,14 @@ class Life:
                     if y + j >= 0 and y+j < col_no:
                         sumi += grid[x+i][y+j]
 
-        # subtract this coloumn value
+        # subtract this cell value
         sumi -= grid[x][y]
-        # print(sumi)
-
-        # print(self.sumi)
         return sumi
 
 
     def apply_rules(self):
 
+        # RULES
         # 1 --> Neighbours < 2 --> 0
         # 1 --> Neighbours > 3 --> 0
         # 0 --> Neighbours == 3 --> 1
@@ -186,18 +171,18 @@ class Life:
         for i in range(col_no):
             for j in range(col_no):
                 neighbors = self.count_neighbors(self.matrix, i, j)
-                #print(neighbors)
+
+                # Basically the rules
 
                 if neighbors < 2:
-                    #self.matrix[i][j] = 0
                     self.to_remove.append([i,j])
                 elif neighbors > 3:
-                    #self.matrix[i][j] = 0
                     self.to_remove.append([i,j])
                 elif neighbors == 3 and self.matrix[i][j] == 0:
                     #self.matrix[i][j] = 1
                     self.to_add.append([i,j])
 
+    # Implementing the rules
     def add_and_remove(self):
         for i in range(len(self.to_remove)):
             x,y = self.to_remove[i]

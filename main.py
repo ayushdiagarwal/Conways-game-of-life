@@ -22,6 +22,9 @@ import time
 # Intializing pygame
 pg.init()
 
+# some variables
+col_no = 35
+
 # window display stuff
 DISPLAY_SIDE = 650
 DP = pg.display.set_mode((DISPLAY_SIDE, DISPLAY_SIDE))
@@ -39,13 +42,13 @@ GREY = (168, 159, 158)
 RED = (255, 0, 0)
 BLUE = (50, 119, 168)
 
-# some variables
-col_no = 35
+
 
 class Life:
     # A matrix/grid for the window
     matrix = [[0 for _ in range(col_no)] for _ in range(col_no)]
     end = time.time()
+    end2 = time.time()
     started = False
 
     def __init__(self):
@@ -75,8 +78,11 @@ class Life:
                 self.end = time.time()
 
             if self.started == True:
-                self.apply_rules()
-                self.add_and_remove()
+                start2 = time.time()
+                if start2 - self.end2 > 0.009:
+                    self.apply_rules()
+                    self.add_and_remove()
+                self.end2 = time.time()
 
             if keys[pg.K_s]:
                 self.started = True
@@ -101,16 +107,17 @@ class Life:
     # drawing the whole grid
     def draw_grid(self):
         col_dis = DISPLAY_SIDE // col_no
-        col_dis_cov = DISPLAY_SIDE // col_no
+        col_dis_cov = 0
         thick = 1
 
-        for i in range(col_no):
+        for _ in range(col_no):
             # Draws Horizontal lines
             self.draw_rect(GREY, 0, col_dis_cov, DISPLAY_SIDE, 0)
 
             # Draws Vertical Lines
             self.draw_rect(GREY, col_dis_cov, 0, thick, DISPLAY_SIDE)
             col_dis_cov += col_dis
+
 
     # getting position of the selected box
     def get_pos(self):
@@ -122,7 +129,7 @@ class Life:
             x_pos = mouse[0] // (DISPLAY_SIDE // col_no)
             # Y axis of the mouse position
             y_pos = mouse[1] // (DISPLAY_SIDE // col_no)
-            
+            #print(x_pos, y_pos)
             self.matrix[x_pos][y_pos] = 1
 
 

@@ -1,7 +1,7 @@
 # Conway's Game Of Life
 
 ## Introduction
-This is a visualization of Conway's game of life made using python and pygame 
+This is a visualisation of Conway's game of life made using python and pygame 
 
 ## Contents
 * [Demo](https://github.com/Crucizer/Conways-game-of-life/#Demo)
